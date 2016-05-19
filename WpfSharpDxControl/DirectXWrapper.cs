@@ -86,7 +86,6 @@ namespace WpfSharpDxControl
 			UpdateWindowPos();
 
 			base.OnRenderSizeChanged(sizeInfo);
-
 		}
 	}
 

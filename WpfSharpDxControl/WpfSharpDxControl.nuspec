@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Smartrak</authors>
+    <owners>Smartrak</owners>
+    <projectUrl>https://github.com/Smartrak/WpfSharpDxControl</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Host for SharpDx in Wpf</description>
+    <releaseNotes>First release</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>Wpf SharpDx</tags>
+  </metadata>
+</package>
