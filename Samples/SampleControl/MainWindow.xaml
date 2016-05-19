@@ -1,0 +1,22 @@
+﻿<Window x:Class="SampleControl.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SampleControl"
+        xmlns:wpfSharpDxControl="clr-namespace:WpfSharpDxControl;assembly=WpfSharpDxControl"
+        xmlns:sample="clr-namespace:Sample"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <StackPanel Orientation="Vertical">
+		<Label Content="The DirectX content is wrapped in a control which has its own Hwnd."></Label>
+		<Label Content="So you can have directX content amongst your wpf content."></Label>
+
+		<wpfSharpDxControl:DirectXWrapper Margin="50" Height="100">
+			<wpfSharpDxControl:DirectXWrapper.Content>
+				<sample:Sample2DRenderer></sample:Sample2DRenderer>
+			</wpfSharpDxControl:DirectXWrapper.Content>
+		</wpfSharpDxControl:DirectXWrapper>
+		<Label Content="Probably not gonna be able to have WPF ontop of DirectX."></Label>
+	</StackPanel>
+</Window>
