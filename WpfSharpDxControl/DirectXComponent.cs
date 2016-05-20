@@ -16,7 +16,7 @@ namespace WpfSharpDxControl
 	/// Create SharpDx swapchain hosted in the controls parent Hwnd
 	/// Resources created on Loaded, destroyed on Unloaded. 
 	/// </summary>
-	public abstract class DirectXComponent : Control
+	public abstract class DirectXComponent : HwndWrapper
 	{
 		private Device _device;
 		private SwapChain _swapChain;
@@ -36,7 +36,6 @@ namespace WpfSharpDxControl
 		protected DirectXComponent()
 		{
 			Loaded += OnLoaded;
-			Unloaded += OnUnloaded;
 			SizeChanged += OnSizeChanged;
 		}
 
@@ -45,13 +44,17 @@ namespace WpfSharpDxControl
 			Initialize();
 		}
 
-		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+		protected override void Dispose(bool disposing)
 		{
-			Uninitialize();
+			if (disposing)
+			{
+				Uninitialize();
+			}
 
 			Loaded -= OnLoaded;
-			Unloaded -= OnUnloaded;
 			SizeChanged -= OnSizeChanged;
+
+			base.Dispose(disposing);
 		}
 
 		private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
@@ -76,12 +79,7 @@ namespace WpfSharpDxControl
 			}
 			catch (SharpDXException e)
 			{
-				// ReSharper disable InconsistentNaming
-				const int D2DERR_RECREATE_TARGET = unchecked((int)0x8899000C);
-				const int DXGI_ERROR_DEVICE_REMOVED = unchecked((int)0x887A0005);
-				// ReSharper restore InconsistentNaming
-
-				if (e.HResult == D2DERR_RECREATE_TARGET || e.HResult == DXGI_ERROR_DEVICE_REMOVED)
+				if (e.HResult == HResults.D2DERR_RECREATE_TARGET || e.HResult == HResults.DXGI_ERROR_DEVICE_REMOVED)
 				{
 					Uninitialize();
 					Initialize();
@@ -106,29 +104,26 @@ namespace WpfSharpDxControl
 			InternalUninitialize();
 		}
 
+		private double GetDpiScale()
+		{
+			PresentationSource source = PresentationSource.FromVisual(this);
+
+			return source.CompositionTarget.TransformToDevice.M11;
+		}
+
 		/// <summary>
 		/// Create required DirectX resources.
 		/// Derived calls should begin with base.InternalInitialize()
 		/// </summary>
 		protected virtual void InternalInitialize()
 		{
-			var presentationSource = PresentationSource.FromVisual(this);
-
-			var hwndTarget = presentationSource.CompositionTarget as HwndTarget;
-			var hwnd = ((HwndSource)presentationSource).Handle;
-
-			double dpiScale = 1.0;
-			if (hwndTarget != null)
-			{
-				dpiScale = hwndTarget.TransformToDevice.M11;
-			}
-
+			var dpiScale = GetDpiScale();
 			SurfaceWidth = (int)(ActualWidth < 0 ? 0 : Math.Ceiling(ActualWidth * dpiScale));
 			SurfaceHeight = (int)(ActualHeight < 0 ? 0 : Math.Ceiling(ActualHeight * dpiScale));
 
 			var swapChainDescription = new SwapChainDescription
 			{
-				OutputHandle = hwnd,
+				OutputHandle = Hwnd,
 				BufferCount = 1,
 				Flags = SwapChainFlags.AllowModeSwitch,
 				IsWindowed = true,
@@ -143,7 +138,7 @@ namespace WpfSharpDxControl
 			// Ignore all windows events
 			using (var factory = _swapChain.GetParent<Factory>())
 			{
-				factory.MakeWindowAssociation(hwnd, WindowAssociationFlags.IgnoreAll);
+				factory.MakeWindowAssociation(Hwnd, WindowAssociationFlags.IgnoreAll);
 			}
 
 			// New RenderTargetView from the backbuffer
@@ -192,5 +187,13 @@ namespace WpfSharpDxControl
 		/// Perform render.
 		/// </summary>
 		protected abstract void Render();
+	}
+
+	internal class HResults
+	{
+		// ReSharper disable InconsistentNaming
+		public const int D2DERR_RECREATE_TARGET		= unchecked((int)0x8899000C);
+		public const int DXGI_ERROR_DEVICE_REMOVED	= unchecked((int)0x887A0005);
+		// ReSharper restore InconsistentNaming
 	}
 }

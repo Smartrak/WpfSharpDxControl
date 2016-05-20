@@ -12,11 +12,7 @@
 		<Label Content="The DirectX content is wrapped in a control which has its own Hwnd."></Label>
 		<Label Content="So you can have directX content amongst your wpf content."></Label>
 
-		<wpfSharpDxControl:DirectXWrapper Margin="50" Height="100">
-			<wpfSharpDxControl:DirectXWrapper.Content>
-				<sample:Sample2DRenderer></sample:Sample2DRenderer>
-			</wpfSharpDxControl:DirectXWrapper.Content>
-		</wpfSharpDxControl:DirectXWrapper>
+		<sample:Sample2DRenderer Margin="50" Height="100"></sample:Sample2DRenderer>
 		<Label Content="Probably not gonna be able to have WPF ontop of DirectX."></Label>
 	</StackPanel>
 </Window>
