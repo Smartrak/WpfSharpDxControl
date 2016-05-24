@@ -16,7 +16,7 @@ namespace WpfSharpDxControl
 	/// Create SharpDx swapchain hosted in the controls parent Hwnd
 	/// Resources created on Loaded, destroyed on Unloaded. 
 	/// </summary>
-	public abstract class DirectXComponent : HwndWrapper
+	public abstract class DirectXComponent : Win32HwndControl
 	{
 		private Device _device;
 		private SwapChain _swapChain;
@@ -35,36 +35,29 @@ namespace WpfSharpDxControl
 
 		protected DirectXComponent()
 		{
-			Loaded += OnLoaded;
-			SizeChanged += OnSizeChanged;
 		}
 
-		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+		protected override sealed void Initialize()
 		{
-			Initialize();
+			InternalInitialize();
+
+			Rendering = true;
+			CompositionTarget.Rendering += OnCompositionTargetRendering;
 		}
 
-		protected override void Dispose(bool disposing)
+		protected override sealed void Uninitialize()
 		{
-			if (disposing)
-			{
-				Uninitialize();
-			}
+			Rendering = false;
+			CompositionTarget.Rendering -= OnCompositionTargetRendering;
 
-			Loaded -= OnLoaded;
-			SizeChanged -= OnSizeChanged;
-
-			base.Dispose(disposing);
+			InternalUninitialize();
 		}
 
-		private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
-		{
-			if (!Rendering)
-				return;
-
-			Uninitialize();
-			Initialize();
-		}
+        protected sealed override void Resized()
+        {
+ 	        InternalUninitialize();
+            InternalInitialize();
+        }
 
 		private void OnCompositionTargetRendering(object sender, EventArgs eventArgs)
 		{
@@ -86,22 +79,6 @@ namespace WpfSharpDxControl
 				}
 				else throw;
 			}
-		}
-
-		private void Initialize()
-		{
-			InternalInitialize();
-
-			Rendering = true;
-			CompositionTarget.Rendering += OnCompositionTargetRendering;
-		}
-
-		private void Uninitialize()
-		{
-			Rendering = false;
-			CompositionTarget.Rendering -= OnCompositionTargetRendering;
-
-			InternalUninitialize();
 		}
 
 		private double GetDpiScale()

@@ -20,9 +20,29 @@ namespace SampleControl
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+        private MainViewModel vm;
+
 		public MainWindow()
 		{
+            vm = new MainViewModel
+            {
+                Content = new Sample2DRenderer()
+            };
+
 			InitializeComponent();
+
+            DataContext = vm;
 		}
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+                {
+                    if (vm.Content is Sample2DRenderer)
+                        vm.Content = new Image();
+                    else
+                        vm.Content = new Sample2DRenderer();
+                });
+        }
 	}
 }

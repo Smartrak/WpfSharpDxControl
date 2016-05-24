@@ -67,7 +67,7 @@
   <ItemGroup>
     <Compile Include="Direct2DComponent.cs" />
     <Compile Include="DirectXComponent.cs" />
-    <Compile Include="HwndWrapper.cs" />
+    <Compile Include="Win32HwndControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

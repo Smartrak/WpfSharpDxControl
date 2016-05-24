@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SampleControl"
         xmlns:wpfSharpDxControl="clr-namespace:WpfSharpDxControl;assembly=WpfSharpDxControl"
-        xmlns:sample="clr-namespace:Sample"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <StackPanel Orientation="Vertical">
 		<Label Content="The DirectX content is wrapped in a control which has its own Hwnd."></Label>
 		<Label Content="So you can have directX content amongst your wpf content."></Label>
 
-		<sample:Sample2DRenderer Margin="50" Height="100"></sample:Sample2DRenderer>
+        <ContentControl Content="{Binding Content}" Margin="50" Height="100"></ContentControl>
 		<Label Content="Probably not gonna be able to have WPF ontop of DirectX."></Label>
-	</StackPanel>
+        <Button Content="ToggleButton" Click="Button_Click"/>
+    </StackPanel>
 </Window>

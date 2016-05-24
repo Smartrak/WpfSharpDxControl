@@ -2,7 +2,7 @@
 using SharpDX;
 using SharpDX.Direct2D1;
 
-namespace Sample
+namespace SampleControl
 {
 	class Sample2DRenderer : Direct2DComponent
 	{
@@ -34,7 +34,7 @@ namespace Sample
 		{
 			UpdatePosition();
 
-			RenderTarget2D.Clear(new Color(0, 0, 0));
+			RenderTarget2D.Clear(new Color(1.0f, 0, 1.0f));
 			RenderTarget2D.FillEllipse(new Ellipse(_position, 20, 20), _circleColor);
 		}
 
