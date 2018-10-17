@@ -112,7 +112,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WpfSharpDxControl\WpfSharpDxControl.csproj">
+    <ProjectReference Include="..\..\WpfSharpDxControl\WpfSharpDxControl.csproj">
       <Project>{1728D4D2-0F6F-4CB9-A834-1CBB5E545890}</Project>
       <Name>WpfSharpDxControl</Name>
     </ProjectReference>
