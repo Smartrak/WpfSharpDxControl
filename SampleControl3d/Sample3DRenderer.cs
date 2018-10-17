@@ -55,8 +55,9 @@ namespace SampleControl3d
                                       new Vector4( 1.0f,  1.0f,  1.0f, 1.0f), new Vector4(0.0f, 1.0f, 1.0f, 1.0f),
                             };
 
-		
-		private Buffer _mvpMatBuffer;
+
+	
+		private Buffer constantBuffer;
 
 		protected override void InternalInitialize() {
 			base.InternalInitialize();
@@ -66,16 +67,16 @@ namespace SampleControl3d
 		private void CreateResources() {
 			
 			//compile and set vertexbuffer
-			using (var shaderBytecode = ShaderBytecode.CompileFromFile("./Shaders/shader.hlsl", "VS", "vs_4_0")) {				
-				
+			using (var shaderBytecode = ShaderBytecode.CompileFromFile("./Shaders/shader.hlsl", "VS", "vs_4_0")) {
+
 				var signature = ShaderSignature.GetInputSignature(shaderBytecode);
-				
 				// Layout from VertexShader input signature
 				var layout = new InputLayout(Device, signature, new[]
 				{
 					new InputElement("POSITION", 0, Format.R32G32B32A32_Float, 0, 0),
 					new InputElement("COLOR", 0, Format.R32G32B32A32_Float, 16, 0)
 				});
+
 
 				Device.ImmediateContext.InputAssembler.InputLayout = layout;
 				Device.ImmediateContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.TriangleList;
@@ -91,22 +92,25 @@ namespace SampleControl3d
 			{
 				Device.ImmediateContext.PixelShader.Set(new PixelShader(Device, bytecode));
 			}
-		
+
 			//setup constant buffer for mvp matrix
-			_mvpMatBuffer = new Buffer(Device, Matrix.SizeInBytes, ResourceUsage.Default, BindFlags.ConstantBuffer, CpuAccessFlags.None, ResourceOptionFlags.None, 0);
-			Device.ImmediateContext.VertexShader.SetConstantBuffer(0, _mvpMatBuffer);
-		
+			constantBuffer = new Buffer(Device, Utilities.SizeOf<Matrix>(), ResourceUsage.Default, BindFlags.ConstantBuffer, CpuAccessFlags.None, ResourceOptionFlags.None, 0);
+			Device.ImmediateContext.VertexShader.SetConstantBuffer(0, constantBuffer);
+
+			
+
 		}
 		protected override void Render() {
 
-			Device.ImmediateContext.ClearRenderTargetView(RenderTargetView, Color.AliceBlue);
+			Device.ImmediateContext.ClearRenderTargetView(RenderTargetView, Color.Black);
 
 			var viewMat = Matrix.LookAtLH(new Vector3(0, 0, -5), new Vector3(0, 0, 0), Vector3.UnitY);
-			var projMat = Matrix.PerspectiveFovLH((float)Math.PI / 4.0f, (float) (Width / (float)Height), 0.1f, 100.0f);
+			var projMat = Matrix.PerspectiveFovLH((float)Math.PI / 4.0f, SurfaceWidth/(float)SurfaceHeight, 0.1f, 100.0f);
 			var modelMat = Matrix.Identity;
 
 			var mvpMat = projMat * viewMat * modelMat;
-			Device.ImmediateContext.UpdateSubresource(ref mvpMat, _mvpMatBuffer); 
+			
+			Device.ImmediateContext.UpdateSubresource(ref mvpMat, constantBuffer); 
 			Device.ImmediateContext.Draw(36,0);
 		}
 	}
