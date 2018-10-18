@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfSharpDxControl", "WpfSharpDxControl.csproj", "{1728D4D2-0F6F-4CB9-A834-1CBB5E545890}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{807F3657-0D0E-4AE4-A3D4-88578E24ADF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleControl", "..\Samples\SampleControl\SampleControl.csproj", "{C6FB58ED-8931-4845-9688-B2052BF17BEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleControl3d", "..\Samples\SampleControl3d\SampleControl3d.csproj", "{8413C38D-174C-4DB9-AA55-D2A4AFA7B37B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,11 +25,19 @@ Global
 		{C6FB58ED-8931-4845-9688-B2052BF17BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6FB58ED-8931-4845-9688-B2052BF17BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6FB58ED-8931-4845-9688-B2052BF17BEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8413C38D-174C-4DB9-AA55-D2A4AFA7B37B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8413C38D-174C-4DB9-AA55-D2A4AFA7B37B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8413C38D-174C-4DB9-AA55-D2A4AFA7B37B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8413C38D-174C-4DB9-AA55-D2A4AFA7B37B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C6FB58ED-8931-4845-9688-B2052BF17BEC} = {807F3657-0D0E-4AE4-A3D4-88578E24ADF6}
+		{8413C38D-174C-4DB9-AA55-D2A4AFA7B37B} = {807F3657-0D0E-4AE4-A3D4-88578E24ADF6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6F1B28A3-D951-47A1-B52D-C89FB216BCD1}
 	EndGlobalSection
 EndGlobal

@@ -110,7 +110,7 @@ namespace WpfSharpDxControl
 				Usage = Usage.RenderTargetOutput | Usage.Shared
 			};
 
-			SharpDX.Direct3D11.Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.BgraSupport, swapChainDescription, out _device, out _swapChain);
+			Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.BgraSupport, swapChainDescription, out _device, out _swapChain);
 
 			// Ignore all windows events
 			using (var factory = _swapChain.GetParent<Factory>())
@@ -157,7 +157,7 @@ namespace WpfSharpDxControl
 		/// </summary>
 		protected virtual void EndRender()
 		{
-			_swapChain.Present(1, PresentFlags.None);
+			_swapChain.Present(0, PresentFlags.None);
 		}
 
 		/// <summary>

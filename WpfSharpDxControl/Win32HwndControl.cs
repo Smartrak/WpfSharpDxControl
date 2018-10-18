@@ -32,19 +32,13 @@ namespace WpfSharpDxControl
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             Initialize();
-            HwndInitialized = true;
-
-            Loaded -= OnLoaded;
+            HwndInitialized = true;         
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             Uninitialize();
             HwndInitialized = false;
-
-            Unloaded -= OnUnloaded;
-
-            Dispose();
         }
 
         protected abstract void Initialize();
